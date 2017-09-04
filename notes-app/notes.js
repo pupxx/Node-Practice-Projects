@@ -30,15 +30,33 @@ function addNote(title, body){
 
 function removeNote(title){
     console.log(`removing note with title: ${title}`);
+    var notesString = fs.readFileSync('data.json');
+    var notes = JSON.parse(notesString) 
+    var index;
+    notes.forEach(function(el, i) {
+      if(el.title === title){
+          index = i
+      }  
+    });
+    console.log(index);
+    notes.splice(index, 1)
+    console.log(notes);
+    fs.writeFileSync('data.json', JSON.stringify(notes))
 }
 
 function getNote(title){
     console.log(`Reading note with title: ${title}`);
+    var notesString = fs.readFileSync('data.json');
+    var notes = JSON.parse(notesString)   
+    var note = notes.filter((el)=>{
+        return el.title === title;
+    })
+    console.log(note[0].body);
 }
 
 function checkForDuplicates(array, title){
   return array.filter((el)=>{
-        return el.title === title
+    return el.title === title
   })
 }
 
