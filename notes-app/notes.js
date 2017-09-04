@@ -3,6 +3,11 @@ const fs = require('fs')
 
 function listNotes(){
     console.log('Listing All Notes');
+    var noteString = fs.readFileSync('data.json')
+    var notes = JSON.parse(noteString)
+    notes.forEach((el)=>{
+        console.log(el.title + '\n' + el.body + '\n\n');
+    })
 }
 
 function addNote(title, body){
