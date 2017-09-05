@@ -1,13 +1,16 @@
-// var obj = {
-//     name: 'Cheryln'
-// }
-// var stringObj = JSON.stringify(obj)
+const fs = require('fs');
 
-// console.log(typeof stringObj);
-// console.log(stringObj);
+var originalNote = {
+    title: 'Some title', 
+    body: 'Some body'
+}
 
-var personString = '{"name":"Cheryln", "age":43}'
-var person = JSON.parse(personString)
-console.log(typeof person);
-console.log(person);
+var originalNoteString = JSON.stringify(originalNote)
 
+fs.writeFileSync('playground/notes.json', originalNoteString)
+
+var noteString = fs.readFileSync('notes.json')
+var note = JSON.parse(noteString)
+
+console.log(typeof note);
+console.log(note.title);

@@ -1,23 +1,22 @@
 const fs = require('fs')
 const _ = require('lodash');
-const yargs = require('yargs');
+const yargs = require('yargs').argv
 
 const notes = require('./notes.js')
 
 const argv = yargs.argv;
 var command = argv._[0]
 
-console.log('command ', command);
-console.log('yargs ', argv);
+var command = yargs._[0]
 
-if (command === 'add') {
-    notes.addNote(argv.title, argv.body)
-} else if(command === 'list') {
-    notes.getAll();
+if(command === 'list'){
+    notes.listNotes()
+}else if(command === 'add'){
+    notes.addNote(yargs.title, yargs.body)  
 }else if(command === 'read'){
-    notes.read(argv.title);    
+    notes.getNote(yargs.title)
 }else if(command === 'remove'){
-    notes.remove(argv.title)    
-}else{
-    console.log('Command not recognized');
+    notes.removeNote(yargs.title)
+}else {
+    console.log('Please choose to either List, Add, or Remove a note');    
 }
