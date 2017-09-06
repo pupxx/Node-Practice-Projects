@@ -12,13 +12,29 @@ const notes = require('./notes.js')
 var command = yargs._[0]
 
 if(command === 'list'){
-    notes.listNotes()
+   var noteList = notes.listNotes() 
+   if(noteList.length > 0){
+       noteList.forEach((el) => {
+           console.log(el.title + '\n' + el.body + '\n\n');
+       })
+   }  
+   console.log('There are no notes to list'); 
 }else if(command === 'add'){
-    notes.addNote(yargs.title, yargs.body)  
+    var note = notes.addNote(yargs.title, yargs.body);
+    if (note) {
+        console.log('Note was created Successfully');
+        console.log(`Title: ${note.title}`);
+    }else {
+        console.log('This title is already taken');
+    }
 }else if(command === 'read'){
-    notes.getNote(yargs.title)
+    var note = notes.getNote(yargs.title)
+    var message = note ? `${note[0].title}\n\n${note[0].body}` : 'Note note found'
+    console.log(message);
 }else if(command === 'remove'){
-    notes.removeNote(yargs.title)
+    var item = notes.removeNote(yargs.title)
+    var message = item ? "Item was successuflly removed" : "Title does not exist"
+    console.log(message);
 }else {
     console.log('Please choose to either List, Add, or Remove a note');    
 }
