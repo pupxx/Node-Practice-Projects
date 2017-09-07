@@ -29,12 +29,7 @@ const argv = yargs
     .help()
     .argv;
 
-<<<<<<< HEAD
-const argv = yargs.argv;
-var command = argv._[0]
-=======
 const notes = require('./notes.js')
->>>>>>> 4642fdb7df2b594909d3ca158796b933cfb0fc5e
 
 var command = argv._[0];
 
