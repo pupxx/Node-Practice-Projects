@@ -4,49 +4,45 @@ function addNote (title, body){
 
 const fs = require('fs')
 
-function listNotes(){
+function listNotes() {
     var notes = fetchNotes();
-    notes.forEach((el)=>{
-        console.log(el.title + '\n' + el.body + '\n\n');
-    })
+    return notes
 }
 
-function addNote(title, body){
+function addNote(title, body) {
     var notes = fetchNotes();
     var note = {
         title,
         body
-    }    
-    if(checkForTitle(notes, title).length === 0){
+    }
+    if (checkForTitle(notes, title).length === 0) {
         notes.push(note);
-        sendNote(notes)
-    }else{
-        console.log('That title already exists.  Please try another one');
+        sendNote(notes);
+        return note
     }
 }
 
-function removeNote(title){
+function removeNote(title) {
     var notes = fetchNotes()
-    var index;
-    notes.forEach(function(el, i) {
-      if(el.title === title){
-          console.log(i);
-          index = i
-      }  
-    });
-    notes.splice(index, 1)
-    sendNote(notes)
+    var index = [];
+
+    var newArray = notes.filter((el) => el.title !== title)
+    sendNote(newArray)
+    if (newArray.length === notes.length) {
+        return false
+    }
+    return true
 }
 
-function getNote(title){
+function getNote(title) {
     var notes = fetchNotes();
     var note = checkForTitle(notes, title);
-    console.log(note[0].body);
+    return note
 }
 
 // ****************  HELPER FUNCTIONS *********************
 
-function fetchNotes(){
+function fetchNotes() {
     try {
         var noteString = fs.readFileSync('data.json')
         return JSON.parse(noteString)
@@ -55,14 +51,17 @@ function fetchNotes(){
     }
 }
 
-function checkForTitle(array, title){
-  return array.filter((el)=>{
-    return el.title === title
-  })
+function checkForTitle(array, title) {
+    return array.filter((el) => {
+        return el.title === title
+    })
 }
 
-function sendNote(array){
+function sendNote(array) {
     fs.writeFileSync('data.json', JSON.stringify(array))
 }
 
-module.exports = {addNote, listNotes, removeNote, getNote}
+function error() {
+    console.log('There was an error, Please try again');
+}
+module.exports = { addNote, listNotes, removeNote, getNote, error, checkForTitle }
