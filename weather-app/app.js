@@ -1,7 +1,23 @@
 require('dotenv').config()
 const request = require('request');
 const googleKey = process.env.googleKey;
-const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=215%2010th%20Ave%20E%20Seattle%20WA%2098102&key=AIzaSyDnthqGPVot20fUGXfndFljShWNFSm_14k'
+const yargs = require('yargs')
+
+const argv = yargs
+.options({
+    a: {
+        demand: true,
+        alias: 'address',
+        describe: 'Address to fetch weather for', 
+        string: true
+    }
+})
+.help()
+.alias('help, h')
+.argv;
+
+var enAddress = encodeURIComponent(argv.a)
+let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${enAddress}&key=AIzaSyDnthqGPVot20fUGXfndFljShWNFSm_14k`
 
 request({
     url: url,
