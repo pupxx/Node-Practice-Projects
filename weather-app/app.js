@@ -23,7 +23,13 @@ request({
     url: url,
     json: true
 }, function (error, response, body) {
-    console.log(body.results[0].formatted_address);
-    console.log(body.results[0].geometry.location.lat);
-    console.log(body.results[0].geometry.location.lng); 
+    if(error){
+        console.log('Unable to connect to Google servers.');
+    } else if(body.status === 'ZERO_RESULTS'){
+        console.log('Unable to find that address');
+    }else{
+        console.log(body.results[0].formatted_address);
+        console.log(body.results[0].geometry.location.lat);
+        console.log(body.results[0].geometry.location.lng); 
+    }
 });
