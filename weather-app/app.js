@@ -1,7 +1,8 @@
 require('dotenv').config()
-const request = require('request');
 const googleKey = process.env.googleKey;
 const yargs = require('yargs')
+
+const geocode = require('./geocode/geocode')
 
 const argv = yargs
 .options({
@@ -16,20 +17,4 @@ const argv = yargs
 .alias('help, h')
 .argv;
 
-var enAddress = encodeURIComponent(argv.a)
-let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${enAddress}&key=AIzaSyDnthqGPVot20fUGXfndFljShWNFSm_14k`
-
-request({
-    url: url,
-    json: true
-}, function (error, response, body) {
-    if(error){
-        console.log('Unable to connect to Google servers.');
-    } else if(body.status === 'ZERO_RESULTS'){
-        console.log('Unable to find that address');
-    }else{
-        console.log(body.results[0].formatted_address);
-        console.log(body.results[0].geometry.location.lat);
-        console.log(body.results[0].geometry.location.lng); 
-    }
-});
+geocode.geocodeAddress(argv.a)
