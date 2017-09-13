@@ -1,8 +1,10 @@
 const request = require('request')
+require('dotenv').config()
+const googleKey = process.env.googleKey;
 
 function geocodeAddress(input, callback){
     var enAddress = encodeURIComponent(input)
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${enAddress}&key=AIzaSyDnthqGPVot20fUGXfndFljShWNFSm_14k`
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${enAddress}&key=${googleKey}`
 
     request({
         url: url,
@@ -21,5 +23,6 @@ function geocodeAddress(input, callback){
         }
     });
 }
+
 
 module.exports = {geocodeAddress}
